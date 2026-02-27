@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard - Data Visualization SaaS</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  </head>
+  <body class="dashboard-page">
+    <!-- ===== PROFESSIONAL NAVBAR ===== -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <!-- Logo & Brand -->
+        <a href="home.html" class="navbar-brand">
+          <img src="chartnow_logo_style5v2.png" alt="Your Logo" />
+          <span class="brand-name"><span class="ai-text"></span></span>
+        </a>
+
+        <!-- Navigation Links -->
+        <div class="navbar-links">
+          <a href="templates.html" class="nav-link">Catalog</a>
+          <a href="#pricing" class="nav-link">Pricing</a>
+          <a href="#docs" class="nav-link">Docs</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+
+        <!-- User Section -->
+        <div class="navbar-user">
+          <div class="user-avatar">👤</div>
+          <div class="user-name">Guest</div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== DASHBOARD ZONE  ===== -->
+    <div id="dashboardZone">
+      <div class="dashboard-header">
+        <div class="header-left">
+          <h1>
+            <img src="dashboard.png" alt="" width="20" height="20" /> My
+            Dashboard
+          </h1>
+          <div class="data-source">
+            Data source <span id="dataSourceInfo"></span>
+            <span id="chartCount"></span>
+          </div>
+        </div>
+
+        <div class="header-actions compact">
+          <!-- Theme toggle is INSIDE dashboardZone -->
+          <button
+            onclick="toggleDashboardTheme()"
+            class="theme-toggle-btn"
+            id="dashboardThemeToggle"
+          >
+            <img src="dark-mode.png" alt="" width="20" height="20" /> Dark Mode
+          </button>
+
+          <button onclick="smartExport()" class="smart-export-btn">
+            <img src="boost.png" alt="" width="20" height="20" />Smart Export
+          </button>
+
+          <div class="export-dropdown">
+            <button class="export-toggle">
+              <img src="export-file.png" alt="" width="20" height="20" /> Export
+            </button>
+            <div class="dropdown-menu">
+              <button onclick="exportAsPNG()">
+                <img src="image.png" alt="" width="20" height="20" /> PNG Image
+              </button>
+              <button onclick="exportAsPDF()">
+                <img src="sheet.png" alt="" width="20" height="20" /> PDF Report
+              </button>
+              <button onclick="exportAsJSON()">
+                <img src="folder.png" alt="" width="20" height="20" /> JSON Data
+              </button>
+            </div>
+          </div>
+
+          <button onclick="clearDashboard()" class="icon-btn" title="Clear all">
+            <img src="recycle-bin.png" alt="" width="20" height="20" />
+          </button>
+          <a href="home.html" class="icon-btn" title="Back to editor">←</a>
+        </div>
+      </div>
+
+      <div id="dashboardGrid" class="dashboard-grid">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <img src="dashboard.png" alt="" width="20" height="20" />
+          </div>
+          <h3>Your dashboard is empty</h3>
+          <p>
+            Go back to the editor, create charts, and click "Add to Dashboard"
+            to see them here.
+          </p>
+          <a
+            href="index.html"
+            class="action-btn export-btn"
+            style="text-decoration: none"
+          >
+            <img src="dashboard.png" alt="" width="20" height="20" /> Go Create
+            Charts
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- ===== END OF DASHBOARD ZONE ===== -->
+
+    <script src="dashboard_js.js"></script>
+    <script src="map-system.js"></script>
+  </body>
+</html>
