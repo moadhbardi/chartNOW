@@ -33,7 +33,14 @@ class AIVizGenerator {
 
     // 1. Chart type detection
     const chartKeywords = {
-      pie: ["pie", "distribution", "share", "percentage", "part of whole", "split"],
+      pie: [
+        "pie",
+        "distribution",
+        "share",
+        "percentage",
+        "part of whole",
+        "split",
+      ],
       line: ["line", "trend", "over time", "progress", "growth", "timeline"],
       bar: ["bar", "compare", "vs", "versus", "difference", "ranking"],
       scatter: ["scatter", "correlation", "relationship", "xy", "scatter plot"],
@@ -43,7 +50,9 @@ class AIVizGenerator {
 
     let maxMatches = 0;
     for (const [chartType, keywords] of Object.entries(chartKeywords)) {
-      const matches = keywords.filter((keyword) => prompt.includes(keyword)).length;
+      const matches = keywords.filter((keyword) =>
+        prompt.includes(keyword)
+      ).length;
       if (matches > maxMatches) {
         maxMatches = matches;
         result.chartType = chartType;
@@ -70,7 +79,8 @@ class AIVizGenerator {
       const headerLower = header.toLowerCase();
       if (prompt.includes(headerLower)) {
         const sampleValue = this.data[0]?.[header];
-        const isNumeric = typeof sampleValue === "number" && !isNaN(sampleValue);
+        const isNumeric =
+          typeof sampleValue === "number" && !isNaN(sampleValue);
 
         if (isNumeric && !result.yAxis.includes(header)) {
           result.yAxis.push(header);
@@ -96,14 +106,20 @@ class AIVizGenerator {
     // 4. Validation
     if (!result.xAxis || result.yAxis.length === 0) {
       showAIStatus(
-        `I couldn't find the right columns. Available: ${this.headers.join(", ")}`,
+        `I couldn't find the right columns. Available: ${this.headers.join(
+          ", "
+        )}`,
         "error"
       );
       return null;
     }
 
     // 5. Aggregation detection
-    if (prompt.includes("average") || prompt.includes("avg") || prompt.includes("mean")) {
+    if (
+      prompt.includes("average") ||
+      prompt.includes("avg") ||
+      prompt.includes("mean")
+    ) {
       result.aggregation = "average";
     } else if (prompt.includes("count")) {
       result.aggregation = "count";
@@ -126,9 +142,13 @@ class AIVizGenerator {
       radar: "Radar Chart",
     };
 
-    result.title = `${chartTypeNames[result.chartType] || "Chart"}: ${result.yAxis.join(", ")} by ${result.xAxis}`;
+    result.title = `${
+      chartTypeNames[result.chartType] || "Chart"
+    }: ${result.yAxis.join(", ")} by ${result.xAxis}`;
     if (result.aggregation !== "sum") {
-      result.title = `${chartTypeNames[result.chartType] || "Chart"}: ${result.aggregation} of ${result.yAxis.join(", ")} by ${result.xAxis}`;
+      result.title = `${chartTypeNames[result.chartType] || "Chart"}: ${
+        result.aggregation
+      } of ${result.yAxis.join(", ")} by ${result.xAxis}`;
     }
 
     return result;
@@ -157,7 +177,10 @@ class AIVizGenerator {
     const chartJsType = isBarVariant ? "bar" : chartType;
 
     const datasets = processedData.datasets.map((dataset, i) => {
-      if ((chartType === "pie" || chartType === "doughnut") && processedData.datasets.length === 1) {
+      if (
+        (chartType === "pie" || chartType === "doughnut") &&
+        processedData.datasets.length === 1
+      ) {
         const colors = getColorsForCategories(processedData.labels);
         return {
           label: dataset.label,
@@ -182,7 +205,9 @@ class AIVizGenerator {
       return {
         label: dataset.label,
         data: dataset.data,
-        backgroundColor: isBarVariant ? chartColors[i % chartColors.length] : "transparent",
+        backgroundColor: isBarVariant
+          ? chartColors[i % chartColors.length]
+          : "transparent",
         borderColor: chartColors[i % chartColors.length],
         borderWidth: 2,
         fill: chartType === "line",
@@ -207,7 +232,8 @@ class AIVizGenerator {
           },
         },
         tooltip: {
-          mode: chartType === "pie" || chartType === "doughnut" ? "point" : "index",
+          mode:
+            chartType === "pie" || chartType === "doughnut" ? "point" : "index",
           intersect: false,
         },
       },
@@ -305,11 +331,16 @@ class AIVizGenerator {
         if (values.length === 0) return 0;
 
         switch (aggregation) {
-          case "average": return values.reduce((a, b) => a + b, 0) / values.length;
-          case "count": return values.length;
-          case "min": return Math.min(...values);
-          case "max": return Math.max(...values);
-          default: return values.reduce((a, b) => a + b, 0);
+          case "average":
+            return values.reduce((a, b) => a + b, 0) / values.length;
+          case "count":
+            return values.length;
+          case "min":
+            return Math.min(...values);
+          case "max":
+            return Math.max(...values);
+          default:
+            return values.reduce((a, b) => a + b, 0);
         }
       }),
     }));
@@ -337,7 +368,8 @@ function getColorsForCategories(categories) {
   return categories.map((category) => {
     const key = String(category);
     if (!colorMap[key]) {
-      colorMap[key] = chartColors[Object.keys(colorMap).length % chartColors.length];
+      colorMap[key] =
+        chartColors[Object.keys(colorMap).length % chartColors.length];
     }
     return colorMap[key];
   });
@@ -353,7 +385,13 @@ let aiHeaders = [];
 function initAISystem(data, headers) {
   aiData = data;
   aiHeaders = headers;
-  console.log("✅ AI System initialized with", data.length, "rows and", headers.length, "columns");
+  console.log(
+    "✅ AI System initialized with",
+    data.length,
+    "rows and",
+    headers.length,
+    "columns"
+  );
 }
 
 function showAIStatus(message, type = "info") {
@@ -407,28 +445,59 @@ function updateChartWithAIConfig(config) {
 
 function detectVisualizationType(prompt) {
   const promptLower = prompt.toLowerCase();
-  
+
   // First check for chart keywords
-  const chartKeywords = ['chart', 'pie', 'bar', 'line', 'scatter', 'doughnut', 'radar'];
-  const isChartRequest = chartKeywords.some(keyword => promptLower.includes(keyword));
-  
+  const chartKeywords = [
+    "chart",
+    "pie",
+    "bar",
+    "line",
+    "scatter",
+    "doughnut",
+    "radar",
+  ];
+  const isChartRequest = chartKeywords.some((keyword) =>
+    promptLower.includes(keyword)
+  );
+
   // Then check for map keywords (only if not a chart request)
-  const mapKeywords = ['map', 'location', 'country', 'city', 'state', 'geo', 'geographic', 'world'];
-  const isMapRequest = !isChartRequest && mapKeywords.some(keyword => {
-    // Use word boundaries to avoid "pie chart" triggering map
-    return new RegExp('\\b' + keyword + '\\b').test(promptLower);
-  });
-  
+  const mapKeywords = [
+    "map",
+    "location",
+    "country",
+    "city",
+    "state",
+    "geo",
+    "geographic",
+    "world",
+  ];
+  const isMapRequest =
+    !isChartRequest &&
+    mapKeywords.some((keyword) => {
+      // Use word boundaries to avoid "pie chart" triggering map
+      return new RegExp("\\b" + keyword + "\\b").test(promptLower);
+    });
+
   // Finally check for KPI keywords
-  const kpiKeywords = ['kpi', 'card', 'metric', 'total', 'count', 'summary', 'overview'];
-  const isKPIRequest = !isChartRequest && kpiKeywords.some(keyword => {
-    return new RegExp('\\b' + keyword + '\\b').test(promptLower);
-  });
-  
-  if (isMapRequest) return 'map';
-  if (isKPIRequest) return 'kpi';
-  if (isChartRequest) return 'chart';
-  return 'chart'; // Default to chart
+  const kpiKeywords = [
+    "kpi",
+    "card",
+    "metric",
+    "total",
+    "count",
+    "summary",
+    "overview",
+  ];
+  const isKPIRequest =
+    !isChartRequest &&
+    kpiKeywords.some((keyword) => {
+      return new RegExp("\\b" + keyword + "\\b").test(promptLower);
+    });
+
+  if (isMapRequest) return "map";
+  if (isKPIRequest) return "kpi";
+  if (isChartRequest) return "chart";
+  return "chart"; // Default to chart
 }
 
 // ============================================================================
@@ -437,75 +506,89 @@ function detectVisualizationType(prompt) {
 
 function handleAIMapRequest(prompt) {
   showAIStatus("🗺️ Creating map from your request...", "loading");
-  
+
   setTimeout(() => {
     try {
       const allHeaders = aiHeaders || [];
       const allData = aiData || [];
       let locationCol = null;
       let valueCol = null;
-      
+
       // Find location column
-      const locationKeywords = ['country', 'state', 'city', 'region', 'location', 'place', 'address'];
+      const locationKeywords = [
+        "country",
+        "state",
+        "city",
+        "region",
+        "location",
+        "place",
+        "address",
+      ];
       for (const header of allHeaders) {
         const headerLower = header.toLowerCase();
-        if (locationKeywords.some(keyword => headerLower.includes(keyword))) {
+        if (locationKeywords.some((keyword) => headerLower.includes(keyword))) {
           locationCol = header;
           break;
         }
       }
-      
+
       if (!locationCol) {
         for (const header of allHeaders) {
-          if (allData[0] && typeof allData[0][header] === 'string') {
+          if (allData[0] && typeof allData[0][header] === "string") {
             locationCol = header;
             break;
           }
         }
       }
-      
+
       // Find numeric column
       for (const header of allHeaders) {
-        if (allData[0] && typeof allData[0][header] === 'number' && !isNaN(allData[0][header])) {
+        if (
+          allData[0] &&
+          typeof allData[0][header] === "number" &&
+          !isNaN(allData[0][header])
+        ) {
           valueCol = header;
           break;
         }
       }
-      
+
       if (!locationCol || !valueCol) {
         showAIStatus("❌ Need location and numeric data for a map", "error");
         return;
       }
-      
+
       // Set map type
       const promptLower = prompt.toLowerCase();
-      let mapType = 'choropleth';
-      if (promptLower.includes('bubble')) mapType = 'bubble';
-      if (promptLower.includes('point')) mapType = 'point';
-      
+      let mapType = "choropleth";
+      if (promptLower.includes("bubble")) mapType = "bubble";
+      if (promptLower.includes("point")) mapType = "point";
+
       // Set UI controls
       document.getElementById("mapLocationColumn").value = locationCol;
       document.getElementById("mapValueColumn").value = valueCol;
-      
+
       // Switch to map tab
-      if (typeof setChartType === 'function') {
-        setChartType('map');
-        
+      if (typeof setChartType === "function") {
+        setChartType("map");
+
         setTimeout(() => {
-          if (typeof setMapType === 'function') {
+          if (typeof setMapType === "function") {
             setMapType(mapType);
           }
-          
+
           // Generate map after UI is ready
           setTimeout(() => {
-            if (typeof generateMap === 'function') {
+            if (typeof generateMap === "function") {
               generateMap();
-              showAIStatus(`🗺️ ${mapType} map created: ${valueCol} by ${locationCol}`, "success");
+              showAIStatus(
+                `🗺️ ${mapType} map created: ${valueCol} by ${locationCol}`,
+                "success"
+              );
             }
           }, 800);
         }, 300);
       }
-      
     } catch (error) {
       console.error("Map error:", error);
       showAIStatus("Couldn't create map: " + error.message, "error");
@@ -519,29 +602,31 @@ function handleAIMapRequest(prompt) {
 
 function handleAIKPIRequest(prompt) {
   showAIStatus("🎯 Creating KPI card from your request...", "loading");
-  
+
   setTimeout(() => {
     try {
       const allHeaders = aiHeaders || [];
       const allData = aiData || [];
       const promptLower = prompt.toLowerCase();
-      
+
       // SMART COLUMN DETECTION
       let kpiCol = null;
-      
+
       // 1. Try to extract column name from prompt
       const columnMatch = promptLower.match(/of\s+([\w\s]+)/);
       if (columnMatch) {
         const requestedColumn = columnMatch[1].trim();
         for (const header of allHeaders) {
-          if (header.toLowerCase().includes(requestedColumn) || 
-              requestedColumn.includes(header.toLowerCase())) {
+          if (
+            header.toLowerCase().includes(requestedColumn) ||
+            requestedColumn.includes(header.toLowerCase())
+          ) {
             kpiCol = header;
             break;
           }
         }
       }
-      
+
       // 2. Look for column mentioned in prompt
       if (!kpiCol) {
         for (const header of allHeaders) {
@@ -551,47 +636,58 @@ function handleAIKPIRequest(prompt) {
           }
         }
       }
-      
+
       // 3. Fallback to numeric column
       if (!kpiCol) {
         for (const header of allHeaders) {
-          if (allData[0] && typeof allData[0][header] === 'number' && !isNaN(allData[0][header])) {
+          if (
+            allData[0] &&
+            typeof allData[0][header] === "number" &&
+            !isNaN(allData[0][header])
+          ) {
             kpiCol = header;
             break;
           }
         }
       }
-      
+
       // 4. Ultimate fallback
       if (!kpiCol && allHeaders.length > 0) {
         kpiCol = allHeaders[0];
       }
-      
+
       if (!kpiCol) {
         showAIStatus("❌ No data found for KPI", "error");
         return;
       }
-      
+
       // CALCULATION DETECTION
-      let calculation = 'sum';
-      if (promptLower.includes('average') || promptLower.includes('avg')) calculation = 'average';
-      if (promptLower.includes('count')) calculation = 'count';
-      if (promptLower.includes('max')) calculation = 'max';
-      if (promptLower.includes('min')) calculation = 'min';
-      if (promptLower.includes('latest')) calculation = 'latest';
-      if (promptLower.includes('unique')) calculation = 'unique';
-      
+      let calculation = "sum";
+      if (promptLower.includes("average") || promptLower.includes("avg"))
+        calculation = "average";
+      if (promptLower.includes("count")) calculation = "count";
+      if (promptLower.includes("max")) calculation = "max";
+      if (promptLower.includes("min")) calculation = "min";
+      if (promptLower.includes("latest")) calculation = "latest";
+      if (promptLower.includes("unique")) calculation = "unique";
+      if (
+        promptLower.includes("distinct") ||
+        promptLower.includes("unique") ||
+        promptLower.includes("unique values")
+      )
+        calculation = "distinctcount";
+
       // TITLE GENERATION
       let title = `${calculation} of ${kpiCol}`;
-      if (promptLower.includes('sales')) title = `Sales ${calculation}`;
-      if (promptLower.includes('revenue')) title = `Revenue ${calculation}`;
-      if (promptLower.includes('profit')) title = `Profit ${calculation}`;
-      if (promptLower.includes('customer')) title = `Customer ${calculation}`;
-      
+      if (promptLower.includes("sales")) title = `Sales ${calculation}`;
+      if (promptLower.includes("revenue")) title = `Revenue ${calculation}`;
+      if (promptLower.includes("profit")) title = `Profit ${calculation}`;
+      if (promptLower.includes("customer")) title = `Customer ${calculation}`;
+
       // Switch to KPI view first so dropdown/options are populated,
       // THEN set the selected column and generate the card.
-      if (typeof setChartType === 'function') {
-        setChartType('kpi');
+      if (typeof setChartType === "function") {
+        setChartType("kpi");
 
         setTimeout(() => {
           const valueEl = document.getElementById("kpiValueColumn");
@@ -608,13 +704,12 @@ function handleAIKPIRequest(prompt) {
           calcEl.value = calculation;
           titleEl.value = title;
 
-          if (typeof generateKPICard === 'function') {
+          if (typeof generateKPICard === "function") {
             generateKPICard();
             showAIStatus(`🎯 KPI created: ${title}`, "success");
           }
         }, 500);
       }
-      
     } catch (error) {
       console.error("KPI error:", error);
       showAIStatus("Couldn't create KPI: " + error.message, "error");
@@ -635,7 +730,10 @@ function generateFromAI() {
 
   const prompt = promptInput.value.trim();
   if (!prompt) {
-    showAIStatus("Please enter what visualization you want to create!", "error");
+    showAIStatus(
+      "Please enter what visualization you want to create!",
+      "error"
+    );
     return;
   }
 
@@ -646,24 +744,26 @@ function generateFromAI() {
 
   const promptLower = prompt.toLowerCase();
   const vizType = detectVisualizationType(promptLower);
-  
-  console.log(`AI detected visualization type: ${vizType} for prompt: "${prompt}"`);
-  
-  if (vizType === 'map') {
+
+  console.log(
+    `AI detected visualization type: ${vizType} for prompt: "${prompt}"`
+  );
+
+  if (vizType === "map") {
     handleAIMapRequest(promptLower);
-  } else if (vizType === 'kpi') {
+  } else if (vizType === "kpi") {
     handleAIKPIRequest(promptLower);
   } else {
     // Use the original chart AI
     showAIStatus("🤔 AI is analyzing your request...", "loading");
-    
+
     setTimeout(() => {
       try {
         const aiViz = new AIVizGenerator(aiData, aiHeaders);
         const aiResult = aiViz.interpretPromptLocally(promptLower);
-        
+
         if (!aiResult) return;
-        
+
         const chartConfig = aiViz.generateChartConfig(aiResult);
         updateChartWithAIConfig(chartConfig);
         showAIStatus("✅ Chart created successfully!", "success");

@@ -1300,8 +1300,15 @@ function generateKPICard() {
   let calculatedValue;
   let formattedValue;
 
+  // Handle DISTINCT COUNT (works with ANY data type) - ADDED
+  if (calculation === "distinctcount") {
+    // Get unique values - works with both numeric and text
+    const uniqueValues = [...new Set(allValues.map((v) => String(v)))];
+    calculatedValue = uniqueValues.length;
+    formattedValue = `${calculatedValue.toLocaleString()} unique values`;
+  }
   // For COUNT calculations (works with ANY data type)
-  if (calculation === "count") {
+  else if (calculation === "count") {
     calculatedValue = allValues.length;
     formattedValue = calculatedValue.toLocaleString();
   }
@@ -1331,7 +1338,7 @@ function generateKPICard() {
     // Format numeric value (only show $ for currency-like columns)
     formattedValue = formatKPIValue(calculatedValue, calculation, valueColumn);
   }
-  // For text calculations (only count and unique work)
+  // For text calculations (only count, distinct count, latest, and unique work)
   else {
     if (calculation === "latest") {
       calculatedValue = csvData[csvData.length - 1]?.[valueColumn] || "N/A";
@@ -1397,11 +1404,12 @@ function createKPICard(
   chartArea.innerHTML = '<div class="kpi-card-container"></div>';
   const container = chartArea.querySelector(".kpi-card-container");
 
-  // Determine title
+  // Determine title - UPDATED with distinctcount
   const calculationNames = {
     sum: "Total",
     average: "Average",
     count: "Count",
+    distinctcount: "Distinct Count", // ADDED
     max: "Maximum",
     min: "Minimum",
     latest: "Latest",
@@ -1464,7 +1472,12 @@ function isCurrencyColumn(columnName) {
 }
 
 function formatKPIValue(value, calculation, valueColumn) {
-  if (calculation === "count" || calculation === "unique") {
+  // UPDATED to include distinctcount
+  if (
+    calculation === "count" ||
+    calculation === "unique" ||
+    calculation === "distinctcount"
+  ) {
     return value.toLocaleString();
   }
 
@@ -2246,6 +2259,15 @@ function addToDashboard() {
         calculatedValue = allValues.length;
         formattedValue = `${calculatedValue.toLocaleString()} items`;
       }
+    }
+    if (calculation === "distinctcount") {
+      // Get unique values from the column
+      const uniqueValues = [...new Set(data.map((row) => row[column]))];
+      // Filter out empty/null values if needed
+      const validUniqueValues = uniqueValues.filter(
+        (v) => v != null && v !== ""
+      );
+      value = validUniqueValues.length;
     }
 
     newVisualization = {

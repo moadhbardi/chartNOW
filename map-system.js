@@ -1041,7 +1041,7 @@ function normalizeCountryName(countryName) {
 window.getApproximateCoordinates = getApproximateCoordinates;
 window.geocodeLocation = geocodeLocation;
 
-// ===== BASEMAP STYLE SWITCHER =====
+// ===== BASEMAP STYLE SWITCHER - PREMIUM VERSION =====
 function setBasemapStyle(style) {
   console.log("🗺️ Switching to", style, "basemap");
 
@@ -1053,26 +1053,66 @@ function setBasemapStyle(style) {
     }
   });
 
-  // Store selection globally
+  // Update radio buttons
+  document.querySelectorAll('input[name="basemapStyle"]').forEach((radio) => {
+    radio.checked = radio.value === style;
+  });
+
   window.currentBasemapStyle = style;
 
-  // If a map is currently displayed, update it
   if (currentMapInstance) {
-    // Get current map settings
-    const locationCol = document.getElementById("mapLocationColumn").value;
-    const valueCol = document.getElementById("mapValueColumn").value;
+    const center = currentMapInstance.getCenter();
+    const zoom = currentMapInstance.getZoom();
 
-    if (locationCol && valueCol) {
-      // Show loading
-      showNotification(`Switching to ${style} map style...`, "info");
+    // Remove old tile layers
+    currentMapInstance.eachLayer((layer) => {
+      if (layer instanceof L.TileLayer) {
+        currentMapInstance.removeLayer(layer);
+      }
+    });
 
-      // Regenerate map after a short delay
-      setTimeout(() => {
-        generateMap();
-      }, 300);
-    }
+    // Define tile layers with WORKING URLs
+    const tileLayers = {
+      light: {
+        url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; CartoDB',
+      },
+      dark: {
+        url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; CartoDB',
+      },
+      satellite: {
+        url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attribution:
+          "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+      },
+      streets: {
+        url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      },
+    };
+
+    // Select the layer
+    const selected = tileLayers[style] || tileLights.light;
+
+    // Create and add new tile layer
+    L.tileLayer(selected.url, {
+      attribution: selected.attribution,
+      maxZoom: 19,
+      subdomains: "abc",
+    }).addTo(currentMapInstance);
+
+    // Restore view
+    currentMapInstance.setView(center, zoom);
+
+    showNotification(`🗺️ Switched to ${style} map`, "success");
   }
 }
-
 // Initialize default
 window.currentBasemapStyle = "light";
+
+// Export functions
+window.setBasemapStyle = setBasemapStyle;

@@ -487,36 +487,31 @@
                 <option value="Viridis">Viridis (Colorblind-friendly)</option>
                 <option value="Custom">Custom Palette</option>
               </select>
-              <label>Base Map Style</label>
-              <div class="basemap-buttons">
-                <button
-                  class="basemap-btn active"
-                  data-style="light"
-                  onclick="setBasemapStyle('light')"
-                >
-                  Light
-                </button>
-                <button
-                  class="basemap-btn"
-                  data-style="dark"
-                  onclick="setBasemapStyle('dark')"
-                >
-                  Dark
-                </button>
-                <button
-                  class="basemap-btn"
-                  data-style="satellite"
-                  onclick="setBasemapStyle('satellite')"
-                >
-                  Satellite
-                </button>
-                <button
-                  class="basemap-btn"
-                  data-style="streets"
-                  onclick="setBasemapStyle('streets')"
-                >
-                  Streets
-                </button>
+              <div class="basemap-selector">
+                <label>Base Map Style</label>
+                
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="style-light" name="basemapStyle" value="light" checked onchange="setBasemapStyle('light')">
+                    <label for="style-light">Light</label>
+                  </div>
+                  
+                  <div class="radio-option">
+                    <input type="radio" id="style-dark" name="basemapStyle" value="dark" onchange="setBasemapStyle('dark')">
+                    <label for="style-dark">Dark</label>
+                  </div>
+                  
+                  <div class="radio-option">
+                    <input type="radio" id="style-satellite" name="basemapStyle" value="satellite" onchange="setBasemapStyle('satellite')">
+                    <label for="style-satellite">Satellite</label>
+                  </div>
+                  
+                  <div class="radio-option">
+                    <input type="radio" id="style-streets" name="basemapStyle" value="streets" onchange="setBasemapStyle('streets')">
+                    <label for="style-streets">Streets</label>
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
 
@@ -544,7 +539,10 @@
               <select id="kpiCalculation">
                 <option value="sum">Sum Total</option>
                 <option value="average">Average</option>
-                <option value="count">Count</option>
+                <option value="count">Count (All Rows)</option>
+                <option value="distinctcount">
+                  Distinct Count (Unique Values)
+                </option>
                 <option value="min">Minimum</option>
                 <option value="max">Maximum</option>
                 <option value="latest">Latest Value</option>

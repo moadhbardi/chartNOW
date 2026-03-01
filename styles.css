@@ -931,7 +931,7 @@ p {
   padding: 20px;
   margin: 20px 0;
   border: 1px solid #e2e8f0;
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid #8f60cb;
 }
 
 .map-controls h4 {
@@ -966,7 +966,7 @@ p {
 }
 
 .map-type-btn.active {
-  border-color: #3b82f6;
+  border-color: #8f60cb;
   background: #eff6ff;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
@@ -1006,7 +1006,7 @@ p {
 
 .basemap-btn.active {
   background: #3b82f6;
-  color: white;
+  color: 8f60cb;
   border-color: #3b82f6;
 }
 
@@ -1021,7 +1021,7 @@ p {
 
 .generate-map-btn {
   flex: 2;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  background: linear-gradient(135deg, #3b82f6, #8f60cb);
   color: white;
   border: none;
   padding: 14px;
@@ -1029,7 +1029,85 @@ p {
   font-weight: 600;
   cursor: pointer;
 }
+/*radio buttons map */ 
+/* Base map selector styling */
+.basemap-selector {
+  margin-bottom: 15px;
+}
 
+.basemap-selector label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Radio group styling - HORIZONTAL */
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Each radio option */
+.radio-option {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+
+/* Hide default radio button */
+.radio-option input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  margin-right: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+/* Checked state */
+.radio-option input[type="radio"]:checked {
+  border-color: #667eea;
+  background-color: #667eea;
+  box-shadow: inset 0 0 0 4px white;
+}
+
+/* Hover state */
+.radio-option input[type="radio"]:hover {
+  border-color: #667eea;
+}
+
+/* Focus state */
+.radio-option input[type="radio"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Label styling */
+.radio-option label {
+  margin-bottom: 0;
+  font-weight: normal;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s;
+  white-space: nowrap; /* Prevents text wrapping */
+}
+
+.radio-option input[type="radio"]:checked + label {
+  color: #667eea;
+  font-weight: 500;
+}
+
+.radio-option:hover label {
+  color: #667eea;
+}
 .secondary-btn {
   flex: 1;
   background: #f1f5f9;
