@@ -258,30 +258,30 @@
                   >
                 </div>
               </div>
-              <!-- In chart controls section: -->
-              <button onclick="addToDashboard()" class="add-to-dashboard-btn">
-                <img
-                  src="C:\Users\moadh\OneDrive\Documents\Desktop\chartNOW-v2\pics\save.png"
-                  alt=""
-                  width="20"
-                  height="20"
-                />
-                Save to Dashboard
-              </button>
-
-              <!-- In sidebar section: -->
-              <a href="dashboard.html" class="dashboard-btn" target="_blank">
-                <img
-                  src="C:\Users\moadh\OneDrive\Documents\Desktop\chartNOW-v2\pics\dashboard.png"
-                  alt=""
-                  width="20"
-                  height="20"
-                />
-                View Dashboard (<span id="dashboard-count">0</span> charts)
-              </a>
             </div>
           </div>
         </div>
+
+        <!-- Dashboard Buttons -->
+        <button onclick="addToDashboard()" class="add-to-dashboard-btn">
+          <img
+            src="C:\Users\moadh\OneDrive\Documents\Desktop\chartNOW-v2\pics\save.png"
+            alt=""
+            width="20"
+            height="20"
+          />
+          Save to Dashboard
+        </button>
+
+        <a href="dashboard.html" class="dashboard-btn" target="_blank">
+          <img
+            src="C:\Users\moadh\OneDrive\Documents\Desktop\chartNOW-v2\pics\dashboard.png"
+            alt=""
+            width="20"
+            height="20"
+          />
+          View Dashboard (<span id="dashboard-count">0</span> charts)
+        </a>
       </div>
 
       <!-- Main Content -->
@@ -298,6 +298,7 @@
             Chart Configuration
           </h3>
 
+          <!-- Chart Type Buttons -->
           <div class="chart-type-buttons">
             <button class="chart-btn" onclick="setChartType('bar')">
               <img
@@ -393,7 +394,6 @@
               />
               Heatmap
             </button>
-
             <button
               class="chart-btn"
               onclick="setChartType('map')"
@@ -407,7 +407,6 @@
               />
               Map
             </button>
-            <!-- KPI CARD BUTTON (ADDED HERE) -->
             <button
               class="chart-btn"
               onclick="setChartType('kpi')"
@@ -423,7 +422,7 @@
             </button>
           </div>
 
-          <!-- Map Controls (Hidden by default) -->
+          <!-- MAP CONTROLS - Hidden by default -->
           <div id="mapControls" class="map-controls" style="display: none">
             <h4>
               <img
@@ -434,6 +433,7 @@
               />
               Map Configuration
             </h4>
+
             <div class="control-group">
               <label>Map Type</label>
               <div class="map-type-buttons">
@@ -487,31 +487,52 @@
                 <option value="Viridis">Viridis (Colorblind-friendly)</option>
                 <option value="Custom">Custom Palette</option>
               </select>
-              <div class="basemap-selector">
-                <label>Base Map Style</label>
-                
-                <div class="radio-group">
-                  <div class="radio-option">
-                    <input type="radio" id="style-light" name="basemapStyle" value="light" checked onchange="setBasemapStyle('light')">
-                    <label for="style-light">Light</label>
-                  </div>
-                  
-                  <div class="radio-option">
-                    <input type="radio" id="style-dark" name="basemapStyle" value="dark" onchange="setBasemapStyle('dark')">
-                    <label for="style-dark">Dark</label>
-                  </div>
-                  
-                  <div class="radio-option">
-                    <input type="radio" id="style-satellite" name="basemapStyle" value="satellite" onchange="setBasemapStyle('satellite')">
-                    <label for="style-satellite">Satellite</label>
-                  </div>
-                  
-                  <div class="radio-option">
-                    <input type="radio" id="style-streets" name="basemapStyle" value="streets" onchange="setBasemapStyle('streets')">
-                    <label for="style-streets">Streets</label>
-                  </div>
+            </div>
+
+            <div class="basemap-selector">
+              <label>Base Map Style</label>
+              <div class="radio-group">
+                <div class="radio-option">
+                  <input
+                    type="radio"
+                    id="style-light"
+                    name="basemapStyle"
+                    value="light"
+                    checked
+                    onchange="setBasemapStyle('light')"
+                  />
+                  <label for="style-light">Light</label>
                 </div>
-              </div>
+                <div class="radio-option">
+                  <input
+                    type="radio"
+                    id="style-dark"
+                    name="basemapStyle"
+                    value="dark"
+                    onchange="setBasemapStyle('dark')"
+                  />
+                  <label for="style-dark">Dark</label>
+                </div>
+                <div class="radio-option">
+                  <input
+                    type="radio"
+                    id="style-satellite"
+                    name="basemapStyle"
+                    value="satellite"
+                    onchange="setBasemapStyle('satellite')"
+                  />
+                  <label for="style-satellite">Satellite</label>
+                </div>
+                <div class="radio-option">
+                  <input
+                    type="radio"
+                    id="style-streets"
+                    name="basemapStyle"
+                    value="streets"
+                    onchange="setBasemapStyle('streets')"
+                  />
+                  <label for="style-streets">Streets</label>
+                </div>
               </div>
             </div>
 
@@ -523,7 +544,7 @@
             </div>
           </div>
 
-          <!-- KPI Card Controls (Hidden by default) - ADDED HERE -->
+          <!-- KPI CONTROLS - Hidden by default -->
           <div id="kpiControls" class="map-controls" style="display: none">
             <h4>🎯 KPI Card Configuration</h4>
 
@@ -575,7 +596,7 @@
             </div>
           </div>
 
-          <!-- Regular Chart Controls -->
+          <!-- REGULAR CHART CONTROLS - Always visible unless map or kpi is selected -->
           <div id="chartControls">
             <div class="control-group">
               <h4>X-Axis (Categories)</h4>
@@ -756,48 +777,4 @@
     <script src="ai_integ.js" defer></script>
     <script src="map-system.js" defer></script>
   </body>
-  <!--- Allowed Callback URLs: https://your-website.com/callback.html
-  https://your-website.com/ Allowed Logout URLs: https://your-website.com/
-  Allowed Web Origins: https://your-website.com-->
-
-  <!-- In your main site HTML files -->
-  <script>
-    // Check if user is logged in
-    function isLoggedIn() {
-      return localStorage.getItem("access_token") !== null;
-    }
-
-    // Logout function
-    function logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_token");
-      localStorage.removeItem("profile");
-
-      // Redirect to Auth0 logout endpoint
-      window.location.href =
-        "https://YOUR_DOMAIN.auth0.com/v2/logout?" +
-        "client_id=YOUR_CLIENT_ID&" +
-        "returnTo=hhttp://localhost:5500";
-    }
-
-    // Show/hide login/logout buttons
-    function updateAuthUI() {
-      const loginBtn = document.getElementById("login-btn");
-      const logoutBtn = document.getElementById("logout-btn");
-      const userMenu = document.getElementById("user-menu");
-
-      if (isLoggedIn()) {
-        loginBtn.style.display = "none";
-        logoutBtn.style.display = "block";
-        userMenu.style.display = "block";
-      } else {
-        loginBtn.style.display = "block";
-        logoutBtn.style.display = "none";
-        userMenu.style.display = "none";
-      }
-    }
-  </script>
-  <!-- Allowed Callback URLs: http://localhost:5500/callback.html
-  http://localhost:5500/ Allowed Logout URLs: http://localhost:5500/ Allowed Web
-  Origins: http://localhost:5500-->
 </html>

@@ -2001,3 +2001,64 @@ p {
   color: #69ebbb !important;  /* Muted gray-blue for dates */
   opacity: 0.9;
 }
+/* ===== FIX FOR MAP SECTION BUTTONS ===== */
+.map-controls button:not(.generate-map-btn) {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+  font-weight: 500 !important;
+}
+
+.map-controls button:not(.generate-map-btn):hover {
+  background: #edf2f7 !important;
+  border-color: #667eea !important;
+  color: #1e293b !important;
+}
+
+/* Keep generate map button purple */
+.map-controls .generate-map-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.map-controls .generate-map-btn:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+}
+
+/* Map type buttons specific */
+.map-type-btn {
+  background: white !important;
+  color: #1e293b !important;
+  border: 2px solid #e2e8f0 !important;
+}
+
+.map-type-btn.active {
+  background: #eff6ff !important;
+  border-color: #667eea !important;
+}
+
+/* ===== FIX FOR KPI SECTION BUTTONS ===== */
+#kpiControls button:not(.generate-map-btn) {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+  font-weight: 500 !important;
+}
+
+#kpiControls button:not(.generate-map-btn):hover {
+  background: #edf2f7 !important;
+  border-color: #10b981 !important; /* Green accent for KPI */
+  color: #1e293b !important;
+}
+
+/* Keep generate KPI button green */
+#kpiControls .generate-map-btn {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%) !important;
+  color: white !important;
+  border: none !important;
+}
+
+#kpiControls .generate-map-btn:hover {
+  background: linear-gradient(135deg, #0da271 0%, #2bc289 100%) !important;
+}

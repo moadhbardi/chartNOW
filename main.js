@@ -1305,7 +1305,7 @@ function generateKPICard() {
     // Get unique values - works with both numeric and text
     const uniqueValues = [...new Set(allValues.map((v) => String(v)))];
     calculatedValue = uniqueValues.length;
-    formattedValue = `${calculatedValue.toLocaleString()} unique values`;
+    formattedValue = `${calculatedValue.toLocaleString()} `;
   }
   // For COUNT calculations (works with ANY data type)
   else if (calculation === "count") {
@@ -1314,28 +1314,33 @@ function generateKPICard() {
   }
   // For numeric calculations
   else if (isNumericColumn) {
+    // Ensure all values are actually numbers
+    const numericValues = allValues
+      .map((v) => Number(v))
+      .filter((v) => !isNaN(v));
+
     switch (calculation) {
       case "sum":
-        calculatedValue = allValues.reduce((a, b) => a + b, 0);
+        calculatedValue = numericValues.reduce((a, b) => a + b, 0);
         break;
       case "average":
         calculatedValue =
-          allValues.reduce((a, b) => a + b, 0) / allValues.length;
+          numericValues.reduce((a, b) => a + b, 0) / numericValues.length;
         break;
       case "max":
-        calculatedValue = Math.max(...allValues);
+        calculatedValue = Math.max(...numericValues);
         break;
       case "min":
-        calculatedValue = Math.min(...allValues);
+        calculatedValue = Math.min(...numericValues);
         break;
       case "latest":
         calculatedValue = csvData[csvData.length - 1]?.[valueColumn] || 0;
         break;
       default:
-        calculatedValue = allValues.reduce((a, b) => a + b, 0);
+        calculatedValue = numericValues.reduce((a, b) => a + b, 0);
     }
 
-    // Format numeric value (only show $ for currency-like columns)
+    // Format numeric value
     formattedValue = formatKPIValue(calculatedValue, calculation, valueColumn);
   }
   // For text calculations (only count, distinct count, latest, and unique work)
@@ -1350,7 +1355,7 @@ function generateKPICard() {
     } else {
       // Default for text: show count
       calculatedValue = allValues.length;
-      formattedValue = `${calculatedValue.toLocaleString()} items`;
+      formattedValue = `${calculatedValue.toLocaleString()} `;
     }
   }
 
